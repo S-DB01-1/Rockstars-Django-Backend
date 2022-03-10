@@ -85,11 +85,20 @@ WSGI_APPLICATION = 'djangoBackend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mssql',
+        "NAME": "Rockstars",
+        "Trusted_Connection": "No",
+        "HOST": "project-rockstars.database.windows.net",
+        'PORT': '1433',
+        'OPTIONS': {
+                'driver': 'ODBC Driver 17 for SQL Server',
+            },
+        "USER": "azureuser",
+        "PASSWORD": "vojbef-hisnEw-6vimha",
     }
 }
 
+USE_TZ = False
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
