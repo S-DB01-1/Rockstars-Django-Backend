@@ -77,8 +77,15 @@ WSGI_APPLICATION = 'djangoBackend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Rockstars',
+        'USER': 'azureuser',
+        'PASSWORD': 'vojbef-hisnEw-6vimha',
+        'HOST': 'project-rockstars.database.windows.net',
+        'PORT': '1433',
+        'OPTIONS': {
+            'ssl': {'ssl-ca': '/var/www/html/BaltimoreCyberTrustRoot.crt.pem'}
+        }
     }
 }
 
