@@ -1,7 +1,7 @@
-from dataclasses import field
 from rest_framework.serializers import HyperlinkedModelSerializer
 
 from .models import Tribes, Rockstars, Articles
+
 
 class TribesSerializer(HyperlinkedModelSerializer):
     class Meta:
@@ -13,6 +13,7 @@ class RockstarsSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Rockstars
         fields = '__all__'
+
 
 class ArticlesSerializer(HyperlinkedModelSerializer):
     class Meta:

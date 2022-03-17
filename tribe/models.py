@@ -1,9 +1,11 @@
 from django.db import models
 
+
 class Tribes(models.Model):
     Name = models.CharField(max_length=255)
     Description = models.TextField(blank=True, null=True)
     BannerImage = models.CharField(max_length=255, null=True)
+
 
 class Rockstars(models.Model):
     TribeId = models.ForeignKey(Tribes, on_delete=models.SET_NULL, null=True)
@@ -11,6 +13,7 @@ class Rockstars(models.Model):
     LinkedIn = models.URLField(null=True)
     Description = models.TextField(blank=True, null=True)
     Image = models.CharField(max_length=255, null=True)
+
 
 class Articles(models.Model):
     TribeId = models.ForeignKey(Tribes, on_delete=models.SET_NULL, null=True)
@@ -22,4 +25,3 @@ class Articles(models.Model):
     ModifiedAt = models.DateTimeField(auto_now=True)
     ThumbnailImage = models.CharField(max_length=255, null=True)
     Viewcount = models.PositiveIntegerField(default=0)
-
