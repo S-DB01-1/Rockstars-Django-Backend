@@ -2,12 +2,13 @@ from django.shortcuts import render
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from .models import Tribes, Rockstars, Articles
 from .serializers import TribesSerializer, RockstarsSerializer, ArticlesSerializer
-
+from rest_framework.viewsets import GenericViewSet
 
 # Create your views here.
 class TribesViewSet(
     RetrieveModelMixin,
-    ListModelMixin
+    ListModelMixin,
+    GenericViewSet
     ):
 
     serializer_class = TribesSerializer
@@ -15,7 +16,8 @@ class TribesViewSet(
 
 class RockstarsViewSet(
     RetrieveModelMixin,
-    ListModelMixin
+    ListModelMixin,
+    GenericViewSet
     ):
 
     serializer_class = RockstarsSerializer
@@ -24,7 +26,8 @@ class RockstarsViewSet(
 class ArticlesViewSet(
     RetrieveModelMixin,
     ListModelMixin,
-    UpdateModelMixin
+    UpdateModelMixin,
+    GenericViewSet
     ):
 
     serializer_class = ArticlesSerializer
