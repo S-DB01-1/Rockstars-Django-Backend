@@ -35,11 +35,10 @@ class ArticlesViewSet(
     serializer_class = ArticlesSerializer
     queryset = Articles.objects.all()
 
-    @action(methods=['get'], detail=True)
-    def get_article(self, request, pk=None):
+    def retrieve(self, request, *args, **kwargs):
         # Fetch article by pk or return 404
         queryset = Articles.objects.all()
-        article = get_object_or_404(queryset, pk=pk)
+        article = get_object_or_404(queryset)
 
         # Update counter
         Articles.objects.filter(id=article.id).update(Viewcount=article.Viewcount + 1)
