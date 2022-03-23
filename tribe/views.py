@@ -1,6 +1,8 @@
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import action
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin, CreateModelMixin
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
@@ -46,9 +48,31 @@ class ArticlesViewSet(
         serializer = ArticlesSerializer(article, context={'request': request})  # Passing context is required here
         return Response(serializer.data)
 
+
 class OnDemandRequestsViewSet(
-    CreateModelMixin,
     GenericViewSet
 ):
     serializer_class = OnDemandRequestsSerializer
     queryset = OnDemandRequests.objects.all()
+
+    def create(self, request):
+        # Fetch data from POST
+        name = request.data['name']
+        phone_number = request.data['phone_number']
+        date = request.data['date']
+        subject = request.data['subject']
+
+        # Create entry in db
+        OnDemandRequests.objects.create(PhoneNumber=phone_number, Date=date, Subject=subject)
+
+        # Render template
+        context = {'name': name, 'date': date}
+        html_message = render_to_string('mail_template/RockstarEmailConfirmation.html', context)
+        plain_message = strip_tags(html_message)
+
+        to = ['rockstarsdjangobackend@gmail.com']
+        subject = 'Requested Speaker'
+        send_mail(subject=subject, message=plain_message, html_message=html_message, recipient_list=to,
+                  from_email=None)  # Use default from e-mail and allow plain text message where HTML is unsupported
+
+        return Response(None)
