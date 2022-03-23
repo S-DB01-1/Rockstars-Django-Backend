@@ -37,7 +37,7 @@ class ArticlesViewSet(
 
     def retrieve(self, request, *args, **kwargs):
         # Fetch article by pk or return 404
-        queryset = Articles.objects.all()
+        queryset = Articles.objects.filter(id=kwargs.get('pk'))
         article = get_object_or_404(queryset)
 
         # Update counter
