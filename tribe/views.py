@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
+from django.core.mail import send_mail
 
 from .models import Tribes, Rockstars, Articles
 from .serializers import TribesSerializer, RockstarsSerializer, ArticlesSerializer
