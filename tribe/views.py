@@ -1,11 +1,11 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin, CreateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from .models import Tribes, Rockstars, Articles
-from .serializers import TribesSerializer, RockstarsSerializer, ArticlesSerializer
+from .models import Tribes, Rockstars, Articles, OnDemandRequests
+from .serializers import TribesSerializer, RockstarsSerializer, ArticlesSerializer, OnDemandRequestsSerializer
 
 
 # Create your views here.
@@ -45,3 +45,10 @@ class ArticlesViewSet(
 
         serializer = ArticlesSerializer(article, context={'request': request})  # Passing context is required here
         return Response(serializer.data)
+
+class OnDemandRequestsViewSet(
+    CreateModelMixin,
+    GenericViewSet
+):
+    serializer_class = OnDemandRequestsSerializer
+    queryset = OnDemandRequests.objects.all()

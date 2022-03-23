@@ -1,6 +1,11 @@
 from rest_framework.serializers import HyperlinkedModelSerializer
+from .models import Tribes, Rockstars, Articles, OnDemandRequests
 
-from .models import Tribes, Rockstars, Articles
+
+class OnDemandRequestsSerializer(HyperlinkedModelSerializer):
+    class Meta:
+        model = OnDemandRequests
+        fields = '__all__'
 
 
 class TribesSerializer(HyperlinkedModelSerializer):

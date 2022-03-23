@@ -1,5 +1,9 @@
 from django.db import models
 
+class OnDemandRequests(models.Model):
+    PhoneNumber = models.EmailField(max_length=254)
+    Date = models.DateTimeField(auto_now=True)
+    Subject = models.CharField(max_length=255)
 
 class Tribes(models.Model):
     Name = models.CharField(max_length=255)
