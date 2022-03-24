@@ -58,6 +58,7 @@ class OnDemandRequestsViewSet(
     def create(self, request):
         # Fetch data from POST
         name = request.data['name']
+        email = request.data['email']
         phone_number = request.data['phone_number']
         date = request.data['date']
         subject = request.data['subject']
@@ -70,7 +71,7 @@ class OnDemandRequestsViewSet(
         html_message = render_to_string('mail_template/RockstarEmailConfirmation.html', context)
         plain_message = strip_tags(html_message)
 
-        to = ['rockstarsdjangobackend@gmail.com']
+        to = ['rockstarsdjangobackend@gmail.com', email]
         subject = 'Requested Speaker'
         send_mail(subject=subject, message=plain_message, html_message=html_message, recipient_list=to,
                   from_email=None)  # Use default from e-mail and allow plain text message where HTML is unsupported
