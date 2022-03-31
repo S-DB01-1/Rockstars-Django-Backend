@@ -64,7 +64,7 @@ class OnDemandRequestsViewSet(
         subject = request.data['subject']
 
         # Create entry in db
-        OnDemandRequests.objects.create(PhoneNumber=phone_number, Date=date, Subject=subject)
+        OnDemandRequests.objects.create(Name=name, PhoneNumber=phone_number, Date=date, Subject=subject)
 
         # Render template
         context = {'name': name, 'date': date}

@@ -2,6 +2,7 @@ from django.db import models
 
 
 class OnDemandRequests(models.Model):
+    Name = models.CharField(max_length=254)
     PhoneNumber = models.CharField(max_length=254)
     Date = models.DateTimeField()
     Subject = models.CharField(max_length=255)
