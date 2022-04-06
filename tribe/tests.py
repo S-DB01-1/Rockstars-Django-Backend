@@ -84,7 +84,7 @@ class ArticleViewSetTests(APITestCase):
         logger.debug('Successfully added test article into the database')
 
     def test_get_article(self):
-        # Test to verify test tribe can be fetched from API.
+        # Test to verify test article can be fetched from API.
         logger.debug('Starting test get tribes')
 
         self.add_test_article()
@@ -100,7 +100,7 @@ class ArticleViewSetTests(APITestCase):
         self.assertEqual(json['Description'], self.article_description)
 
     def test_list_articles(self):
-        # Test to verify whether multiple tribes are present in the database.
+        # Test to verify whether multiple articles are present in the database.
         logger.debug('Starting test list tribes')
 
         logger.debug('Adding multiple test tribes to database')
