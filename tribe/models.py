@@ -32,3 +32,13 @@ class Articles(models.Model):
     ModifiedAt = models.DateTimeField(auto_now=True)
     ThumbnailImage = models.CharField(max_length=255, null=True)
     Viewcount = models.PositiveIntegerField(default=0)
+
+
+class Podcasts(models.Model):
+    TribeId = models.ForeignKey(Tribes, on_delete=models.CASCADE)
+    SpotifyUrl = models.URLField()
+
+
+class Videos(models.Model):
+    TribeId = models.ForeignKey(Tribes, on_delete=models.CASCADE)
+    VideoUrl = models.URLField()

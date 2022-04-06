@@ -6,8 +6,8 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from .models import Tribes, Rockstars, Articles, OnDemandRequests
-from .serializers import TribesSerializer, RockstarsSerializer, ArticlesSerializer, OnDemandRequestsSerializer
+from .models import Tribes, Rockstars, Articles, OnDemandRequests, Podcasts, Videos
+from .serializers import TribesSerializer, RockstarsSerializer, ArticlesSerializer, OnDemandRequestsSerializer, PodcastsSerializer, VideosSerializer
 
 
 # Create your views here.
@@ -77,3 +77,21 @@ class OnDemandRequestsViewSet(
                   from_email=None)  # Use default from e-mail and allow plain text message where HTML is unsupported
 
         return Response(None)
+
+
+class PodcastsViewSet(
+    RetrieveModelMixin,
+    ListModelMixin,
+    GenericViewSet
+):
+    serializer_class = PodcastsSerializer
+    queryset = Podcasts.objects.all()
+
+
+class VideosViewset(
+    RetrieveModelMixin,
+    ListModelMixin,
+    GenericViewSet
+):
+    serializer_class = VideosSerializer
+    queryset = Videos.objects.all()
