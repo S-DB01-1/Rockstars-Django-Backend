@@ -69,3 +69,50 @@ class TribeViewSetTests(APITestCase):
 
         logger.debug('Testing whether there are the exact amount of tribes as created')
         self.assertEqual(json['count'], tribe_amount)
+
+
+class ArticleViewSetTests(APITestCase):
+    def add_test_article(self):
+        logger.debug('Adding new row with random article data into database')
+
+        self.article_name = random_string()
+        self.article_description = random_string()
+
+        a = models.Articles(Name=self.article_name, Description=self.article_description)
+        a.save()
+
+        logger.debug('Successfully added test article into the database')
+
+    def test_get_article(self):
+        # Test to verify test article can be fetched from API.
+        logger.debug('Starting test get tribes')
+
+        self.add_test_article()
+
+        response = get_request_json(url='http://127.0.0.1:8000/api/v1/articles/1/?format=json', client=self.client)
+        json = response.json()
+
+        logger.debug('Testing status code response: %s, code: %d' % (json, response.status_code))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        logger.debug('Testing whether values match')
+        self.assertEqual(json['Name'], self.article_name)
+        self.assertEqual(json['Description'], self.article_description)
+
+    def test_list_articles(self):
+        # Test to verify whether multiple articles are present in the database.
+        logger.debug('Starting test list tribes')
+
+        logger.debug('Adding multiple test tribes to database')
+        article_amount = random.randrange(1, 6)
+        for i in range(article_amount):
+            self.add_test_article()
+
+        response = get_request_json(url='http://127.0.0.1:8000/api/v1/articles/?format=json', client=self.client)
+        json = response.json()
+
+        logger.debug('Testing status code response: %s, code: %d' % (json, response.status_code))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        logger.debug('Testing whether there are the exact amount of tribes as created')
+        self.assertEqual(json['count'], article_amount)
