@@ -1,6 +1,7 @@
 from rest_framework.routers import DefaultRouter
 
-from .views import TribesViewSet, RockstarsViewSet, ArticlesViewSet, OnDemandRequestsViewSet, PodcastsViewSet, VideosViewset
+from .views import TribesViewSet, RockstarsViewSet, ArticlesViewSet, OnDemandRequestsViewSet, PodcastsViewSet, \
+    VideosViewset
 
 router = DefaultRouter()
 router.register(r'tribes', TribesViewSet)

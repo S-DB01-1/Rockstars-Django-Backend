@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from .models import Tribes, Rockstars, Articles, OnDemandRequests, Podcasts, Videos
-from .serializers import TribesSerializer, RockstarsSerializer, ArticlesSerializer, OnDemandRequestsSerializer, PodcastsSerializer, VideosSerializer
+from .serializers import TribesSerializer, RockstarsSerializer, ArticlesSerializer, OnDemandRequestsSerializer, \
+    PodcastsSerializer, VideosSerializer
 
 
 # Create your views here.
