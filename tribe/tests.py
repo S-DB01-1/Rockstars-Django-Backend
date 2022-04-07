@@ -170,3 +170,62 @@ class OnDemandRequestsViewSetTests(APITestCase):
         self.assertEqual(o.PhoneNumber, self.phone_number)
         self.assertEqual(str(o.Date), self.date)
         self.assertEqual(o.Subject, self.subject)
+
+
+class PodcastsViewSetTests(APITestCase):
+    def add_test_tribe(self):
+        # Adds a test tribe into the database.
+        logger.debug('Adding new row with random tribe data into database')
+
+        self.tribe_name = random_string()
+        self.tribe_description = random_string()
+
+        t = models.Tribes(Name=self.tribe_name, Description=self.tribe_description)
+        t.save()
+
+        logger.debug('Successfully added test tribe into the database')
+
+    def add_test_podcast(self):
+        # Adds a test podcast into the database.
+        logger.debug('Adding new row with random podcast data into database')
+
+        self.add_test_tribe()
+        self.spotify_url = 'https://open.spotify.com/track/3spdoTYpuCpmq19tuD0bOe?si=6c9f24f42db74580'
+
+        t = models.Podcasts(Tribe_id=1, SpotifyUrl=self.spotify_url)
+        t.save()
+
+        logger.debug('Successfully added test podcast into the database')
+
+    def test_get_podcast(self):
+        # Test to verify test podcast can be fetched from API.
+        logger.debug('Starting test get podcasts')
+
+        self.add_test_podcast()
+
+        response = get_request_json(url='http://127.0.0.1:8000/api/v1/podcasts/1/?format=json', client=self.client)
+        json = response.json()
+
+        logger.debug('Testing status code response: %s, code: %d' % (json, response.status_code))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        logger.debug('Testing whether values match')
+        self.assertEqual(json['SpotifyUrl'], self.spotify_url)
+
+    def test_list_podcasts(self):
+        # Test to verify whether multiple podcasts are present in the database.
+        logger.debug('Starting test list podcasts')
+
+        logger.debug('Adding multiple test podcasts to database')
+        podcast_amount = random.randrange(1, 6)
+        for i in range(podcast_amount):
+            self.add_test_podcast()
+
+        response = get_request_json(url='http://127.0.0.1:8000/api/v1/podcasts/?format=json', client=self.client)
+        json = response.json()
+
+        logger.debug('Testing status code response: %s, code: %d' % (json, response.status_code))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        logger.debug('Testing whether there are the exact amount of podcasts as created')
+        self.assertEqual(json['count'], podcast_amount)
