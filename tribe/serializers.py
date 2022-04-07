@@ -22,6 +22,7 @@ class TribesSerializer(HyperlinkedModelSerializer):
 
 class RockstarsSerializer(HyperlinkedModelSerializer):
     id = serializers.IntegerField()
+    Tribe_id = serializers.IntegerField(source='Tribe.id', read_only=True)
 
     class Meta:
         model = Rockstars
@@ -30,6 +31,7 @@ class RockstarsSerializer(HyperlinkedModelSerializer):
 
 class ArticlesSerializer(HyperlinkedModelSerializer):
     id = serializers.IntegerField()
+    Tribe_id = serializers.IntegerField(source='Tribe.id', read_only=True)
 
     class Meta:
         model = Articles
@@ -38,6 +40,7 @@ class ArticlesSerializer(HyperlinkedModelSerializer):
 
 class PodcastsSerializer(HyperlinkedModelSerializer):
     id = serializers.IntegerField()
+    Tribe_id = serializers.IntegerField(source='Tribe.id', read_only=True)
 
     class Meta:
         model = Podcasts
@@ -46,6 +49,7 @@ class PodcastsSerializer(HyperlinkedModelSerializer):
 
 class VideosSerializer(HyperlinkedModelSerializer):
     id = serializers.IntegerField()
+    Tribe_id = serializers.IntegerField(source='Tribe.id', read_only=True)
 
     class Meta:
         model = Videos
