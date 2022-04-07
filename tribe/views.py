@@ -30,6 +30,12 @@ class RockstarsViewSet(
     serializer_class = RockstarsSerializer
     queryset = Rockstars.objects.all()
 
+    def get_queryset(self):
+        queryset = Articles.objects.all()
+        tribe = self.request.query_params.get('tribe')
+        if tribe is not None:
+            queryset = queryset.filter(Tribe_id=tribe)
+        return queryset
 
 class ArticlesViewSet(
     ListModelMixin,
@@ -38,6 +44,13 @@ class ArticlesViewSet(
 ):
     serializer_class = ArticlesSerializer
     queryset = Articles.objects.all()
+
+    def get_queryset(self):
+        queryset = Articles.objects.all()
+        tribe = self.request.query_params.get('tribe')
+        if tribe is not None:
+            queryset = queryset.filter(Tribe_id=tribe)
+        return queryset
 
     def retrieve(self, request, *args, **kwargs):
         # Fetch article by pk or return 404
@@ -89,6 +102,12 @@ class PodcastsViewSet(
     serializer_class = PodcastsSerializer
     queryset = Podcasts.objects.all()
 
+    def get_queryset(self):
+        queryset = Articles.objects.all()
+        tribe = self.request.query_params.get('tribe')
+        if tribe is not None:
+            queryset = queryset.filter(Tribe_id=tribe)
+        return queryset
 
 class VideosViewset(
     RetrieveModelMixin,
@@ -97,3 +116,10 @@ class VideosViewset(
 ):
     serializer_class = VideosSerializer
     queryset = Videos.objects.all()
+
+    def get_queryset(self):
+        queryset = Articles.objects.all()
+        tribe = self.request.query_params.get('tribe')
+        if tribe is not None:
+            queryset = queryset.filter(Tribe_id=tribe)
+        return queryset
