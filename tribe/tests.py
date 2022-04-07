@@ -155,7 +155,6 @@ class OnDemandRequestsViewSetTests(APITestCase):
         self.test_create_ondemandrequest()
 
         logger.debug('Testing person count to make sure object was successfully added')
-        print(models.OnDemandRequests.objects.count())
         self.assertEqual(models.OnDemandRequests.objects.count(), 1)
 
         logger.debug('Testing new person object details')
