@@ -116,3 +116,51 @@ class ArticleViewSetTests(APITestCase):
 
         logger.debug('Testing whether there are the exact amount of tribes as created')
         self.assertEqual(json['count'], article_amount)
+
+
+class OnDemandRequestsViewSetTests(APITestCase):
+    def test_create_ondemandrequest(self):
+        # Test to verify if ondemand request can be created by POST request.
+        logger.debug('Starting test create ondemand request form')
+
+        url = 'http://127.0.0.1:8000/api/v1/ondemand/'
+
+        self.name = random_string()
+        self.email = random_string()
+        self.phone_number = random_string()
+        self.date = '2022-03-17 10:34:09'
+        self.subject = random_string()
+
+        data = {
+            'name': self.name,
+            'email': self.email,
+            'phone_number': self.phone_number,
+            'date': self.date,
+            'subject': self.subject
+        }
+
+        logger.debug('Sending TEST data to url: %s, data: %s' % (url, data))
+        response = self.client.post(url, data, format='json')
+
+        # logger.debug('Testing status code response: %s, code: %d' % (response.json(), response.status_code))
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        logger.debug('Test ondemand request create completed successfully')
+
+    def test_ondemandrequest_db(self):
+        # Test to verify whether the POST JSON values were saved correctly to the db.
+        logger.debug('Starting test ondemand request database')
+
+        logger.debug('Create random ondemand request form')
+        self.test_create_ondemandrequest()
+
+        logger.debug('Testing person count to make sure object was successfully added')
+        print(models.OnDemandRequests.objects.count())
+        self.assertEqual(models.OnDemandRequests.objects.count(), 1)
+
+        logger.debug('Testing new person object details')
+        o = models.OnDemandRequests.objects.get(id=1)
+        self.assertEqual(o.Name, self.name)
+        self.assertEqual(o.PhoneNumber, self.phone_number)
+        self.assertEqual(str(o.Date), self.date)
+        self.assertEqual(o.Subject, self.subject)
