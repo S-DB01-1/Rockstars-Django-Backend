@@ -2,6 +2,7 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from rest_framework import status
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -77,7 +78,7 @@ class OnDemandRequestsViewSet(
         send_mail(subject=subject, message=plain_message, html_message=html_message, recipient_list=to,
                   from_email=None)  # Use default from e-mail and allow plain text message where HTML is unsupported
 
-        return Response(None)
+        return Response(status=status.HTTP_201_CREATED)
 
 
 class PodcastsViewSet(
