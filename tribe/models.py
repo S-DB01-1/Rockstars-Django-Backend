@@ -15,7 +15,7 @@ class Tribes(models.Model):
 
 
 class Rockstars(models.Model):
-    TribeId = models.ForeignKey(Tribes, on_delete=models.SET_NULL, null=True)
+    Tribe = models.ForeignKey(Tribes, on_delete=models.SET_NULL, null=True)
     Name = models.CharField(max_length=255)
     LinkedIn = models.URLField(null=True)
     Description = models.TextField(blank=True, null=True)
@@ -23,8 +23,8 @@ class Rockstars(models.Model):
 
 
 class Articles(models.Model):
-    TribeId = models.ForeignKey(Tribes, on_delete=models.SET_NULL, null=True)
-    RockstarId = models.ForeignKey(Rockstars, on_delete=models.SET_NULL, null=True)
+    Tribe = models.ForeignKey(Tribes, on_delete=models.SET_NULL, null=True)
+    Rockstar = models.ForeignKey(Rockstars, on_delete=models.SET_NULL, null=True)
     Name = models.CharField(max_length=255)
     Description = models.TextField(blank=True)
     Image = models.CharField(max_length=255, null=True)
@@ -35,10 +35,10 @@ class Articles(models.Model):
 
 
 class Podcasts(models.Model):
-    TribeId = models.ForeignKey(Tribes, on_delete=models.CASCADE)
+    Tribe = models.ForeignKey(Tribes, on_delete=models.CASCADE)
     SpotifyUrl = models.URLField()
 
 
 class Videos(models.Model):
-    TribeId = models.ForeignKey(Tribes, on_delete=models.CASCADE)
+    Tribe = models.ForeignKey(Tribes, on_delete=models.CASCADE)
     VideoUrl = models.URLField()
