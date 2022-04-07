@@ -99,6 +99,13 @@ class ArticleViewSetTests(APITestCase):
         self.assertEqual(json['Name'], self.article_name)
         self.assertEqual(json['Description'], self.article_description)
 
+        logger.debug('Testing if viewcount works.')
+        response = get_request_json(url='http://127.0.0.1:8000/api/v1/articles/1/?format=json', client=self.client)
+        json = response.json()
+        view_count = json['Viewcount']
+
+        self.assertEqual(view_count, 1)
+
     def test_list_articles(self):
         # Test to verify whether multiple articles are present in the database.
         logger.debug('Starting test list tribes')
