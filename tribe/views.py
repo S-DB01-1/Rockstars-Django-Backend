@@ -7,9 +7,9 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from .models import Tribes, Rockstars, Articles, OnDemandRequests, Podcasts, Videos
+from .models import Tribes, Rockstars, Articles, OnDemandRequests, Podcasts, Videos, PodcastEpisodes
 from .serializers import TribesSerializer, RockstarsSerializer, ArticlesSerializer, OnDemandRequestsSerializer, \
-    PodcastsSerializer, VideosSerializer
+    PodcastsSerializer, VideosSerializer, PodcastEpisodesSerializer
 
 
 # Create your views here.
@@ -113,6 +113,24 @@ class PodcastsViewSet(
             queryset = queryset.filter(Rockstar_id=rockstar)
 
         return queryset
+
+
+class PodcastEpisodeViewSet(
+    RetrieveModelMixin,
+    ListModelMixin,
+    GenericViewSet
+):
+    serializer_class = PodcastEpisodesSerializer
+    queryset = PodcastEpisodes.objects.all()
+
+    def get_queryset(self):
+        queryset = PodcastEpisodes.objects.all()
+        podcast = self.request.query_params.get('podcast')
+        if podcast is not None:
+            queryset = queryset.filter(Podcast_id=podcast)
+
+        return queryset
+
 
 class VideosViewset(
     RetrieveModelMixin,
