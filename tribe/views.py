@@ -103,10 +103,15 @@ class PodcastsViewSet(
     queryset = Podcasts.objects.all()
 
     def get_queryset(self):
-        queryset = Articles.objects.all()
+        queryset = Podcasts.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
             queryset = queryset.filter(Tribe_id=tribe)
+
+        rockstar = self.request.query_params.get('rockstar')
+        if rockstar is not None:
+            queryset = queryset.filter(Rockstar_id=rockstar)
+
         return queryset
 
 class VideosViewset(
@@ -118,7 +123,7 @@ class VideosViewset(
     queryset = Videos.objects.all()
 
     def get_queryset(self):
-        queryset = Articles.objects.all()
+        queryset = Videos.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
             queryset = queryset.filter(Tribe_id=tribe)

@@ -35,10 +35,11 @@ class Articles(models.Model):
 
 
 class Podcasts(models.Model):
-    Tribe = models.ForeignKey(Tribes, on_delete=models.CASCADE)
+    Tribe = models.ForeignKey(Tribes, on_delete=models.SET_NULL, null=True)
+    Rockstar = models.ForeignKey(Rockstars, on_delete=models.SET_NULL, null=True)
     SpotifyUrl = models.URLField()
 
 
 class Videos(models.Model):
-    Tribe = models.ForeignKey(Tribes, on_delete=models.CASCADE)
+    Tribe = models.ForeignKey(Tribes, on_delete=models.SET_NULL, null=True)
     VideoUrl = models.URLField()
