@@ -31,7 +31,7 @@ class RockstarsViewSet(
     queryset = Rockstars.objects.all()
 
     def get_queryset(self):
-        queryset = Articles.objects.all()
+        queryset = Rockstars.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
             queryset = queryset.filter(Tribe_id=tribe)
