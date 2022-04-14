@@ -12,7 +12,17 @@ from .serializers import TribesSerializer, RockstarsSerializer, ArticlesSerializ
     PodcastsSerializer, VideosSerializer, PodcastEpisodesSerializer
 
 
-# Create your views here.
+def retrieve_update_counter(request, model, serializer, *args, **kwargs):
+    queryset = model.objects.filter(id=kwargs.get('pk'))
+    instance = get_object_or_404(queryset)
+
+    # Update counter
+    model.objects.filter(id=instance.id).update(Viewcount=instance.Viewcount + 1)
+
+    serializer = serializer(instance, context={'request': request})  # Passing context is required here
+    return Response(serializer.data)
+
+
 class TribesViewSet(
     RetrieveModelMixin,
     ListModelMixin,
@@ -37,6 +47,7 @@ class RockstarsViewSet(
             queryset = queryset.filter(Tribe_id=tribe)
         return queryset
 
+
 class ArticlesViewSet(
     ListModelMixin,
     UpdateModelMixin,
@@ -53,15 +64,7 @@ class ArticlesViewSet(
         return queryset
 
     def retrieve(self, request, *args, **kwargs):
-        # Fetch article by pk or return 404
-        queryset = Articles.objects.filter(id=kwargs.get('pk'))
-        article = get_object_or_404(queryset)
-
-        # Update counter
-        Articles.objects.filter(id=article.id).update(Viewcount=article.Viewcount + 1)
-
-        serializer = ArticlesSerializer(article, context={'request': request})  # Passing context is required here
-        return Response(serializer.data)
+        return retrieve_update_counter(request, Articles, ArticlesSerializer, *args, **kwargs)
 
 
 class OnDemandRequestsViewSet(
@@ -139,6 +142,9 @@ class VideosViewset(
 ):
     serializer_class = VideosSerializer
     queryset = Videos.objects.all()
+
+    def retrieve(self, request, *args, **kwargs):
+        return retrieve_update_counter(request, Videos, VideosSerializer, *args, **kwargs)
 
     def get_queryset(self):
         queryset = Videos.objects.all()

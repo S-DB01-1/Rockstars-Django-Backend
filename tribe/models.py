@@ -49,3 +49,4 @@ class PodcastEpisodes(models.Model):
 class Videos(models.Model):
     Tribe = models.ForeignKey(Tribes, on_delete=models.SET_NULL, null=True)
     VideoUrl = models.URLField()
+    Viewcount = models.PositiveIntegerField(default=0)
