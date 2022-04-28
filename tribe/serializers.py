@@ -1,67 +1,70 @@
 from rest_framework import serializers
 from rest_framework.serializers import HyperlinkedModelSerializer
 
-from .models import Tribes, Rockstars, Articles, OnDemandRequests, Podcasts, Videos, PodcastEpisodes
+from .models import Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video, Tag, ArticleImage
 
 
-class OnDemandRequestsSerializer(HyperlinkedModelSerializer):
-    id = serializers.IntegerField()
-
+class OnDemandRequestSerializer(HyperlinkedModelSerializer):
     class Meta:
-        model = OnDemandRequests
+        model = OnDemandRequest
         fields = '__all__'
 
 
-class TribesSerializer(HyperlinkedModelSerializer):
-    id = serializers.IntegerField()
-
+class TagSerializer(HyperlinkedModelSerializer):
     class Meta:
-        model = Tribes
+        model = Tag
         fields = '__all__'
 
 
-class RockstarsSerializer(HyperlinkedModelSerializer):
-    id = serializers.IntegerField()
-    Tribe_id = serializers.IntegerField(source='Tribe.id', read_only=True)
-
+class TribeSerializer(HyperlinkedModelSerializer):
     class Meta:
-        model = Rockstars
+        model = Tribe
         fields = '__all__'
 
 
-class ArticlesSerializer(HyperlinkedModelSerializer):
-    id = serializers.IntegerField()
-    Tribe_id = serializers.IntegerField(source='Tribe.id', read_only=True)
-    Author = serializers.CharField(source='Rockstar.Name', read_only=True)
+class RockstarSerializer(HyperlinkedModelSerializer):
+    tribe_id = serializers.IntegerField(source='tribe.tribeid', read_only=True)
 
     class Meta:
-        model = Articles
+        model = Rockstar
         fields = '__all__'
 
 
-class PodcastsSerializer(HyperlinkedModelSerializer):
-    id = serializers.IntegerField()
-    Tribe_id = serializers.IntegerField(source='Tribe.id', read_only=True)
-    Rockstar_id = serializers.IntegerField(source='Rockstar.id', read_only=True)
+class ArticleSerializer(HyperlinkedModelSerializer):
+    tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
 
     class Meta:
-        model = Podcasts
+        model = Article
         fields = '__all__'
 
 
-class PodcastEpisodesSerializer(HyperlinkedModelSerializer):
-    id = serializers.IntegerField()
-    Podcast_id = serializers.IntegerField(source='Podcast.id', read_only=True)
-
+class ArticleImageSerializer(HyperlinkedModelSerializer):
     class Meta:
-        model = PodcastEpisodes
+        model = ArticleImage
         fields = '__all__'
 
 
-class VideosSerializer(HyperlinkedModelSerializer):
-    id = serializers.IntegerField()
-    Tribe_id = serializers.IntegerField(source='Tribe.id', read_only=True)
+class PodcastSerializer(HyperlinkedModelSerializer):
+    tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
+    rockstarid = serializers.IntegerField(source='rockstar.rockstarid', read_only=True)
 
     class Meta:
-        model = Videos
+        model = Podcast
+        fields = '__all__'
+
+
+# class PodcastEpisodeSerializer(HyperlinkedModelSerializer):
+#     
+#     Podcast_id = serializers.IntegerField(source='Podcast.id', read_only=True)
+#
+#     class Meta:
+#         model = PodcastEpisodes
+#         fields = '__all__'
+
+
+class VideoSerializer(HyperlinkedModelSerializer):
+    tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
+
+    class Meta:
+        model = Video
         fields = '__all__'

@@ -7,71 +7,74 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from .models import Tribes, Rockstars, Articles, OnDemandRequests, Podcasts, Videos, PodcastEpisodes
-from .serializers import TribesSerializer, RockstarsSerializer, ArticlesSerializer, OnDemandRequestsSerializer, \
-    PodcastsSerializer, VideosSerializer, PodcastEpisodesSerializer
+from .models import Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video
+from .serializers import TribeSerializer, RockstarSerializer, ArticleSerializer, OnDemandRequestSerializer, \
+    PodcastSerializer, VideoSerializer
 
 
+# This function works for the retrieve functions that currently use it, but because the other teams database table pk
+# isn't called 'id' this currently won't work for example on the podcast episode table. I'm currently not going to
+# invest time in fixing this since we'll probably get rid of this entire function in the near future
 def retrieve_update_counter(request, model, serializer, *args, **kwargs):
-    queryset = model.objects.filter(id=kwargs.get('pk'))
+    queryset = model.objects.filter(articleid=kwargs.get('pk'))
     instance = get_object_or_404(queryset)
 
     # Update counter
-    model.objects.filter(id=instance.id).update(Viewcount=instance.Viewcount + 1)
+    model.objects.filter(articleid=instance.articleid).update(viewcount=instance.viewcount + 1)
 
     serializer = serializer(instance, context={'request': request})  # Passing context is required here
     return Response(serializer.data)
 
 
-class TribesViewSet(
+class TribeViewSet(
     RetrieveModelMixin,
     ListModelMixin,
     GenericViewSet
 ):
-    serializer_class = TribesSerializer
-    queryset = Tribes.objects.all()
+    serializer_class = TribeSerializer
+    queryset = Tribe.objects.all()
 
 
-class RockstarsViewSet(
+class RockstarViewSet(
     RetrieveModelMixin,
     ListModelMixin,
     GenericViewSet
 ):
-    serializer_class = RockstarsSerializer
-    queryset = Rockstars.objects.all()
+    serializer_class = RockstarSerializer
+    queryset = Rockstar.objects.all()
 
     def get_queryset(self):
-        queryset = Rockstars.objects.all()
+        queryset = Rockstar.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(Tribe_id=tribe)
+            queryset = queryset.filter(tribe_id=tribe)
         return queryset
 
 
-class ArticlesViewSet(
+class ArticleViewSet(
     ListModelMixin,
     UpdateModelMixin,
     GenericViewSet
 ):
-    serializer_class = ArticlesSerializer
-    queryset = Articles.objects.all()
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
 
     def get_queryset(self):
-        queryset = Articles.objects.all()
+        queryset = Article.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(Tribe_id=tribe)
+            queryset = queryset.filter(tribe_id=tribe)
         return queryset
 
     def retrieve(self, request, *args, **kwargs):
-        return retrieve_update_counter(request, Articles, ArticlesSerializer, *args, **kwargs)
+        return retrieve_update_counter(request, Article, ArticleSerializer, *args, **kwargs)
 
 
-class OnDemandRequestsViewSet(
+class OnDemandRequestViewSet(
     GenericViewSet
 ):
-    serializer_class = OnDemandRequestsSerializer
-    queryset = OnDemandRequests.objects.all()
+    serializer_class = OnDemandRequestSerializer
+    queryset = OnDemandRequest.objects.all()
 
     def create(self, request):
         # Fetch data from POST
@@ -83,7 +86,7 @@ class OnDemandRequestsViewSet(
         subject = request.data['subject']
 
         # Create entry in db
-        OnDemandRequests.objects.create(Name=name, PhoneNumber=phone_number, Date=date, Subject=subject)
+        OnDemandRequest.objects.create(Name=name, PhoneNumber=phone_number, Date=date, Subject=subject)
 
         # Render template
         context = {'name': name, 'company': company, 'date': date, 'subject': subject}
@@ -98,58 +101,59 @@ class OnDemandRequestsViewSet(
         return Response(status=status.HTTP_201_CREATED)
 
 
-class PodcastsViewSet(
+class PodcastViewSet(
     RetrieveModelMixin,
     ListModelMixin,
     GenericViewSet
 ):
-    serializer_class = PodcastsSerializer
-    queryset = Podcasts.objects.all()
+    serializer_class = PodcastSerializer
+    queryset = Podcast.objects.all()
 
     def get_queryset(self):
-        queryset = Podcasts.objects.all()
+        queryset = Podcast.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(Tribe_id=tribe)
+            queryset = queryset.filter(tribe_id=tribe)
 
         rockstar = self.request.query_params.get('rockstar')
         if rockstar is not None:
-            queryset = queryset.filter(Rockstar_id=rockstar)
+            queryset = queryset.filter(rockstar_id=rockstar)
 
         return queryset
 
 
-class PodcastEpisodeViewSet(
+# Currently disabled till the other group fixes their tables.
+# class PodcastEpisodeViewSet(
+#     RetrieveModelMixin,
+#     ListModelMixin,
+#     GenericViewSet
+# ):
+#     serializer_class = PodcastEpisodeSerializer
+#     queryset = PodcastEpisodes.objects.all()
+#
+#     def get_queryset(self):
+#         queryset = PodcastEpisodes.objects.all()
+#         podcast = self.request.query_params.get('podcast')
+#         if podcast is not None:
+#             queryset = queryset.filter(Podcast_id=podcast)
+#
+#         return queryset
+
+
+class VideoViewset(
     RetrieveModelMixin,
     ListModelMixin,
     GenericViewSet
 ):
-    serializer_class = PodcastEpisodesSerializer
-    queryset = PodcastEpisodes.objects.all()
-
-    def get_queryset(self):
-        queryset = PodcastEpisodes.objects.all()
-        podcast = self.request.query_params.get('podcast')
-        if podcast is not None:
-            queryset = queryset.filter(Podcast_id=podcast)
-
-        return queryset
-
-
-class VideosViewset(
-    RetrieveModelMixin,
-    ListModelMixin,
-    GenericViewSet
-):
-    serializer_class = VideosSerializer
-    queryset = Videos.objects.all()
+    serializer_class = VideoSerializer
+    queryset = Video.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
-        return retrieve_update_counter(request, Videos, VideosSerializer, *args, **kwargs)
+        return retrieve_update_counter(request, Video, VideoSerializer, *args, **kwargs)
 
     def get_queryset(self):
-        queryset = Videos.objects.all()
+        queryset = Video.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(Tribe_id=tribe)
+            queryset = queryset.filter(tribe_id=tribe)
         return queryset
