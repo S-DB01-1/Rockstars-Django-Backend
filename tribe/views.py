@@ -76,6 +76,7 @@ class OnDemandRequestsViewSet(
     def create(self, request):
         # Fetch data from POST
         name = request.data['name']
+        company = request.data['company']
         email = request.data['email']
         phone_number = request.data['phone_number']
         date = request.data['date']
@@ -85,7 +86,7 @@ class OnDemandRequestsViewSet(
         OnDemandRequests.objects.create(Name=name, PhoneNumber=phone_number, Date=date, Subject=subject)
 
         # Render template
-        context = {'name': name, 'date': date}
+        context = {'name': name, 'company': company, 'date': date, 'subject': subject}
         html_message = render_to_string('mail_template/RockstarEmailConfirmation.html', context)
         plain_message = strip_tags(html_message)
 
