@@ -1,3 +1,6 @@
+import os
+
+from azure.appconfiguration import AzureAppConfigurationClient
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
@@ -93,7 +96,12 @@ class OnDemandRequestViewSet(
         html_message = render_to_string('mail_template/RockstarEmailConfirmation.html', context)
         plain_message = strip_tags(html_message)
 
-        to = ['rockstarsdjangobackend@gmail.com', email]
+        # Fetch mailinglist from Azure config file
+        connection_string = os.getenv('AZURE_APP_CONFIG_CONNECTION_STRING')
+        app_config_client = AzureAppConfigurationClient.from_connection_string(connection_string)
+        mailinglist = app_config_client.get_configuration_setting(key='mailinglist')
+
+        to = [mailinglist, email]
         subject = 'Requested Speaker'
         send_mail(subject=subject, message=plain_message, html_message=html_message, recipient_list=to,
                   from_email=None)  # Use default from e-mail and allow plain text message where HTML is unsupported
