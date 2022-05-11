@@ -17,12 +17,15 @@ class TagSerializer(HyperlinkedModelSerializer):
 
 
 class TribeSerializer(HyperlinkedModelSerializer):
+    id = serializers.IntegerField(source='tribeid', read_only=True)
+
     class Meta:
         model = Tribe
         fields = '__all__'
 
 
 class RockstarSerializer(HyperlinkedModelSerializer):
+    id = serializers.IntegerField(source='rockstarid', read_only=True)
     tribe_id = serializers.IntegerField(source='tribe.tribeid', read_only=True)
 
     class Meta:
@@ -31,6 +34,7 @@ class RockstarSerializer(HyperlinkedModelSerializer):
 
 
 class ArticleSerializer(HyperlinkedModelSerializer):
+    id = serializers.IntegerField(source='articleid', read_only=True)
     tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
 
     class Meta:
@@ -45,6 +49,7 @@ class ArticleImageSerializer(HyperlinkedModelSerializer):
 
 
 class PodcastSerializer(HyperlinkedModelSerializer):
+    id = serializers.IntegerField(source='podcastid', read_only=True)
     tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
     rockstarid = serializers.IntegerField(source='rockstar.rockstarid', read_only=True)
 
@@ -63,6 +68,7 @@ class PodcastSerializer(HyperlinkedModelSerializer):
 
 
 class VideoSerializer(HyperlinkedModelSerializer):
+    id = serializers.IntegerField(source='videoid', read_only=True)
     tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
 
     class Meta:
