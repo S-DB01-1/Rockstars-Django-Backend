@@ -52,8 +52,6 @@ class Article(models.Model):
     rockstar = models.ForeignKey('Rockstar', models.CASCADE, db_column='RockstarId', blank=True, null=True)
     title = models.TextField(db_column='Title', blank=True, null=True)
     description = models.TextField(db_column='Description', blank=True, null=True)
-    author = models.TextField(db_column='Author', blank=True, null=True)
-    text = models.TextField(db_column='Text', blank=True, null=True)
     tribe = models.ForeignKey('Tribe', models.CASCADE, db_column='TribeId', blank=True, null=True)
     datecreated = models.DateTimeField(db_column='DateCreated')
     datemodified = models.DateTimeField(db_column='DateModified')
