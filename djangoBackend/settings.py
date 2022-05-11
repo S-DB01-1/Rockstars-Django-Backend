@@ -21,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7l-6@e8jk$1ja)@l4n%h95gd1&x7&+udkeg_r%jl=voe2%b=)^'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
 ALLOWED_HOSTS = ['s8ifzokvp35u68fi.azurewebsites.net', 'localhost', '127.0.0.1']
 
@@ -94,7 +94,7 @@ DATABASES = {
             'driver': 'ODBC Driver 17 for SQL Server',
         },
         "USER": "azureuser",
-        "PASSWORD": "vojbef-hisnEw-6vimha",
+        "PASSWORD": os.environ.get('DATABASE_PASSWORD'),
     }
 }
 
@@ -154,6 +154,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 15
 }
+
+# Disable browsable API in production
+if bool(int(os.environ.get('DEBUG', 0))):
+    REST_FRAMEWORK = {
+        'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+        )
+    }
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
