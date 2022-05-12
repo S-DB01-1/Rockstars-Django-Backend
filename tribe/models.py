@@ -2,10 +2,10 @@ from django.db import models
 
 
 class OnDemandRequest(models.Model):
-    Name = models.CharField(max_length=254)
-    PhoneNumber = models.CharField(max_length=254)
-    Date = models.DateTimeField()
-    Subject = models.CharField(max_length=255)
+    name = models.CharField(max_length=254)
+    phone_number = models.CharField(max_length=254)
+    date = models.DateTimeField()
+    subject = models.CharField(max_length=254)
 
 
 class Tag(models.Model):
