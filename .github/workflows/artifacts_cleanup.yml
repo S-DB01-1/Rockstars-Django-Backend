@@ -1,12 +1,12 @@
 name: 'Artifacts Cleanup'
-on:
-  workflow_dispatch:
 
+on: [workflow_dispatch]
 jobs:
-  delete-artifacts:
+  remove-job:
     runs-on: ubuntu-latest
     steps:
-      - uses: kolpav/purge-artifacts-action@v1
-        with:
-          token: $
-          expire-in: 1nanoseconds
+    - id: result 
+      uses: MichaelMelena/list-artifacts@v1
+    - uses: MichaelMelena/remove-artifacts@v1
+      with:
+        artifacts: ${{ steps.result.outputs.artifacts }}
