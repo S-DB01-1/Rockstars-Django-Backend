@@ -36,6 +36,7 @@ class RockstarSerializer(HyperlinkedModelSerializer):
 class ArticleSerializer(HyperlinkedModelSerializer):
     id = serializers.IntegerField(source='articleid', read_only=True)
     tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
+    author = serializers.CharField(source='rockstar.name', read_only=True)
 
     class Meta:
         model = Article
