@@ -4,11 +4,7 @@
 
 name: Build and deploy Python app to Azure Web App - s8ifzokvp35u68fi
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+# THIS FILE IS DISABLED CURRENTLY
 
 jobs:
   build:
