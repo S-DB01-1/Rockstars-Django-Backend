@@ -33,14 +33,15 @@ jobs:
       # Disable tests untill we figure out how to get tests working again after #85
       #- name: Run tests
       #  run: python manage.py test
-
+      
+      - name: Tar files
+        run: tar -cvf --exclude="venv" files.tar
+      
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
         with:
           name: python-app
-          path: |
-            . 
-            !venv/
+          path: files.tar
 
   deploy:
     runs-on: ubuntu-latest
