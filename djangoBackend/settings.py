@@ -156,7 +156,7 @@ REST_FRAMEWORK = {
 }
 
 # Disable browsable API in production
-if bool(int(os.environ.get('DEBUG', 0))):
+if not bool(int(os.environ.get('DEBUG', 0))):
     REST_FRAMEWORK = {
         'DEFAULT_RENDERER_CLASSES': (
             'rest_framework.renderers.JSONRenderer',
