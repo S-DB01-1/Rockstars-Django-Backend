@@ -11,21 +11,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Set up Python version
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: '3.8'
-
-      - name: Create and start virtual environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
 
       - name: Install dependencies
         run: |
@@ -38,30 +33,7 @@ jobs:
       
       - name: Building web app
         uses: azure/appservice-build@v2
-      
-      - name: Tar files
-        run: tar -cvf files.tar --exclude="venv" .
-      
-      - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v3
-        with:
-          name: python-app
-          path: files.tar
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: python-app
-          path: .
-
+        
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
@@ -69,3 +41,4 @@ jobs:
           app-name: 's8ifzokvp35u68fi'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_358535E6E9BA4352AD4C694D21D8E9D6 }}
+          
