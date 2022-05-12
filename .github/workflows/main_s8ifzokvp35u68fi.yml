@@ -35,7 +35,7 @@ jobs:
       #  run: python manage.py test
       
       - name: Tar files
-        run: tar -cvf --exclude="venv" files.tar
+        run: tar -cvf files.tar --exclude="venv" .
       
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
