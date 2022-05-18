@@ -24,8 +24,8 @@ class Tribe(models.Model):
     description = models.TextField(db_column='Description', blank=True, null=True)
     spotify = models.TextField(db_column='Spotify', blank=True, null=True)
     leadaddress = models.TextField(db_column='LeadAddress', blank=True, null=True)
-    blocknumber = models.IntegerField(db_column='BlockNumber')
-    imagenumber = models.IntegerField(db_column='ImageNumber')
+    # blocknumber = models.IntegerField(db_column='BlockNumber')
+    # imagenumber = models.IntegerField(db_column='ImageNumber')
 
     class Meta:
         managed = False
@@ -76,8 +76,8 @@ class ArticleImage(models.Model):
 
 class Podcast(models.Model):
     podcastid = models.AutoField(db_column='PodcastId', primary_key=True)
-    titel = models.TextField(db_column='Titel', blank=True, null=True)
-    omschrijving = models.TextField(db_column='Omschrijving', blank=True, null=True)
+    title = models.TextField(db_column='Title', blank=True, null=True)
+    description = models.TextField(db_column='Description', blank=True, null=True)
     spotifyurl = models.TextField(db_column='URL', blank=True, null=True)
     datecreated = models.DateTimeField(db_column='DateCreated')
     datemodified = models.DateTimeField(db_column='DateModified')
