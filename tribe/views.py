@@ -163,5 +163,5 @@ class VideoViewset(
         queryset = Video.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(tribeid=tribe)
+            queryset = queryset.filter(tribe=tribe)
         return queryset
