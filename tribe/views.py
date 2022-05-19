@@ -50,7 +50,7 @@ class RockstarViewSet(
         queryset = Rockstar.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(tribeid=tribe)
+            queryset = queryset.filter(tribe=tribe)
         return queryset
 
 
@@ -66,7 +66,7 @@ class ArticleViewSet(
         queryset = Article.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(tribeid=tribe)
+            queryset = queryset.filter(tribe=tribe)
         return queryset
 
     def retrieve(self, request, *args, **kwargs):
@@ -121,11 +121,11 @@ class PodcastViewSet(
         queryset = Podcast.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(tribeid=tribe)
+            queryset = queryset.filter(tribe=tribe)
 
         rockstar = self.request.query_params.get('rockstar')
         if rockstar is not None:
-            queryset = queryset.filter(rockstarid=rockstar)
+            queryset = queryset.filter(rockstar=rockstar)
 
         return queryset
 
