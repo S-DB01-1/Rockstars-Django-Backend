@@ -26,7 +26,7 @@ class TribeSerializer(HyperlinkedModelSerializer):
 
 class RockstarSerializer(HyperlinkedModelSerializer):
     id = serializers.IntegerField(source='rockstarid', read_only=True)
-    tribe_id = serializers.IntegerField(source='tribe.tribeid', read_only=True)
+    tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
 
     class Meta:
         model = Rockstar
