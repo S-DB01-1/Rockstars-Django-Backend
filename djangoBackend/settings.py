@@ -94,7 +94,7 @@ DATABASES = {
             'driver': 'ODBC Driver 17 for SQL Server',
         },
         "USER": "azureuser",
-        "PASSWORD": os.environ.get('DATABASE_PASSWORD'),
+        "PASSWORD": "vojbef-hisnEw-6vimha",
     }
 }
 
@@ -158,6 +158,9 @@ REST_FRAMEWORK = {
 # Disable browsable API in production
 if not bool(int(os.environ.get('DEBUG', 0))):
     REST_FRAMEWORK = {
+        'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+        'PAGE_SIZE': 15,
         'DEFAULT_RENDERER_CLASSES': (
             'rest_framework.renderers.JSONRenderer',
         )
