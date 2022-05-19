@@ -50,7 +50,7 @@ class RockstarViewSet(
         queryset = Rockstar.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(tribe_id=tribe)
+            queryset = queryset.filter(tribeid=tribe)
         return queryset
 
 
@@ -66,7 +66,7 @@ class ArticleViewSet(
         queryset = Article.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(tribe_id=tribe)
+            queryset = queryset.filter(tribeid=tribe)
         return queryset
 
     def retrieve(self, request, *args, **kwargs):
@@ -99,7 +99,7 @@ class OnDemandRequestViewSet(
         # Fetch mailinglist from Azure config file
         connection_string = os.getenv('AZURE_APP_CONFIG_CONNECTION_STRING')
         app_config_client = AzureAppConfigurationClient.from_connection_string(connection_string)
-        mailinglist = app_config_client.get_configuration_setting(key='mailinglist')
+        mailinglist = app_config_client.get_configuration_setting(key='mailinglist').value
 
         to = [mailinglist, email]
         subject = 'Requested Speaker'
@@ -121,11 +121,11 @@ class PodcastViewSet(
         queryset = Podcast.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(tribe_id=tribe)
+            queryset = queryset.filter(tribeid=tribe)
 
         rockstar = self.request.query_params.get('rockstar')
         if rockstar is not None:
-            queryset = queryset.filter(rockstar_id=rockstar)
+            queryset = queryset.filter(rockstarid=rockstar)
 
         return queryset
 
@@ -143,7 +143,7 @@ class PodcastViewSet(
 #         queryset = PodcastEpisodes.objects.all()
 #         podcast = self.request.query_params.get('podcast')
 #         if podcast is not None:
-#             queryset = queryset.filter(Podcast_id=podcast)
+#             queryset = queryset.filter(Podcastid=podcast)
 #
 #         return queryset
 
@@ -163,5 +163,5 @@ class VideoViewset(
         queryset = Video.objects.all()
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
-            queryset = queryset.filter(tribe_id=tribe)
+            queryset = queryset.filter(tribeid=tribe)
         return queryset
