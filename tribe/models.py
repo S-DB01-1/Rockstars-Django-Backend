@@ -46,7 +46,6 @@ class Rockstar(models.Model):
         managed = False
         db_table = 'Rockstars'
 
-
 class Article(models.Model):
     articleid = models.AutoField(db_column='ArticleId', primary_key=True)
     rockstar = models.ForeignKey('Rockstar', models.CASCADE, db_column='RockstarId', blank=True, null=True)
