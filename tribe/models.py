@@ -1,4 +1,3 @@
-# from msilib.schema import Class
 from django.db import models
 
 
@@ -49,7 +48,7 @@ class Rockstar(models.Model):
 
 class ArticleText(models.Model):
     articletextblockid = models.TextField(db_column='ArticleTextBlockId', primary_key=True)
-    articleid = models.ForeignKey('Article', models.CASCADE, db_column='ArticleId', blank=True, null=True)
+    article = models.ForeignKey('Article', models.CASCADE, db_column='ArticleId', blank=True, null=True)
     text = models.TextField(db_column='Text', blank=True, null=True)
 
     class Meta:
@@ -59,7 +58,6 @@ class ArticleText(models.Model):
 class Article(models.Model):
     articleid = models.AutoField(db_column='ArticleId', primary_key=True)
     rockstar = models.ForeignKey('Rockstar', models.CASCADE, db_column='RockstarId', blank=True, null=True)
-    # articletext = models.ForeignKey(ArticleText, models.CASCADE, blank=True, null=True)
     title = models.TextField(db_column='Title', blank=True, null=True)
     description = models.TextField(db_column='Description', blank=True, null=True)
     tribe = models.ForeignKey('Tribe', models.CASCADE, db_column='TribeId', blank=True, null=True)

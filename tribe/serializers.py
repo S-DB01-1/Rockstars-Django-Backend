@@ -78,7 +78,6 @@ class VideoSerializer(HyperlinkedModelSerializer):
 
 class ArticleTextSerializer(HyperlinkedModelSerializer):
     id = serializers.IntegerField(source='articletextblockid', read_only=True)
-    # articleid = serializers.IntegerField(source='article.articleid', read_only=True)
 
     class Meta:
         model = ArticleText

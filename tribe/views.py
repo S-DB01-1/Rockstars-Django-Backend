@@ -64,7 +64,7 @@ class ArticleTextViewSet(
 
     def get_queryset(self):
         queryset = ArticleText.objects.all()
-        article = self.request.query_params.get('articleid')
+        article = self.request.query_params.get('article')
         if article is not None:
             queryset = queryset.filter(article=article)
 
