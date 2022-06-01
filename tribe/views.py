@@ -10,8 +10,8 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from .models import Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video
-from .serializers import TribeSerializer, RockstarSerializer, ArticleSerializer, OnDemandRequestSerializer, \
+from .models import ArticleText, Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video
+from .serializers import ArticleTextSerializer, TribeSerializer, RockstarSerializer, ArticleSerializer, OnDemandRequestSerializer, \
     PodcastSerializer, VideoSerializer
 
 
@@ -53,6 +53,22 @@ class RockstarViewSet(
             queryset = queryset.filter(tribe=tribe)
         return queryset
 
+
+class ArticleTextViewSet(
+    ListModelMixin,
+    UpdateModelMixin,
+    GenericViewSet
+):
+    serializer_class = ArticleTextSerializer
+    queryset = ArticleText.objects.all()
+
+    def get_queryset(self):
+        queryset = ArticleText.objects.all()
+        article = self.request.query_params.get('articleid')
+        if article is not None:
+            queryset = queryset.filter(article=article)
+
+        return queryset
 
 class ArticleViewSet(
     ListModelMixin,

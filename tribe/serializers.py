@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import HyperlinkedModelSerializer
 
-from .models import Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video, Tag, ArticleImage
+from .models import ArticleText, Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video, Tag, ArticleImage
 
 
 class OnDemandRequestSerializer(HyperlinkedModelSerializer):
@@ -74,4 +74,12 @@ class VideoSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Video
+        fields = '__all__'
+
+class ArticleTextSerializer(HyperlinkedModelSerializer):
+    id = serializers.IntegerField(source='articletextblockid', read_only=True)
+    # articleid = serializers.IntegerField(source='article.articleid', read_only=True)
+
+    class Meta:
+        model = ArticleText
         fields = '__all__'
