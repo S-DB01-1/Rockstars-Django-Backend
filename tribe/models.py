@@ -46,6 +46,14 @@ class Rockstar(models.Model):
         managed = False
         db_table = 'Rockstars'
 
+class ArticleText(models.Model):
+    articletextblockid = models.TextField(db_column='ArticleTextBlockId', primary_key=True)
+    article = models.ForeignKey('Article', models.CASCADE, db_column='ArticleId', blank=True, null=True)
+    text = models.TextField(db_column='Text', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ArticleTextBlocks'
 
 class Article(models.Model):
     articleid = models.AutoField(db_column='ArticleId', primary_key=True)

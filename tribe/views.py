@@ -5,13 +5,13 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from rest_framework import status
+from rest_framework import status, filters
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from .models import Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video
-from .serializers import TribeSerializer, RockstarSerializer, ArticleSerializer, OnDemandRequestSerializer, \
+from .models import ArticleText, Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video
+from .serializers import ArticleTextSerializer, TribeSerializer, RockstarSerializer, ArticleSerializer, OnDemandRequestSerializer, \
     PodcastSerializer, VideoSerializer
 
 
@@ -54,6 +54,22 @@ class RockstarViewSet(
         return queryset
 
 
+class ArticleTextViewSet(
+    ListModelMixin,
+    UpdateModelMixin,
+    GenericViewSet
+):
+    serializer_class = ArticleTextSerializer
+    queryset = ArticleText.objects.all()
+
+    def get_queryset(self):
+        queryset = ArticleText.objects.all()
+        article = self.request.query_params.get('article')
+        if article is not None:
+            queryset = queryset.filter(article=article)
+
+        return queryset
+
 class ArticleViewSet(
     ListModelMixin,
     UpdateModelMixin,
@@ -67,6 +83,9 @@ class ArticleViewSet(
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
             queryset = queryset.filter(tribe=tribe)
+
+
+        queryset = queryset.filter(publishedstatus=True)
         return queryset
 
     def retrieve(self, request, *args, **kwargs):
@@ -127,6 +146,7 @@ class PodcastViewSet(
         if rockstar is not None:
             queryset = queryset.filter(rockstar=rockstar)
 
+        queryset = queryset.filter(publishedstatus=True)
         return queryset
 
 
@@ -147,7 +167,6 @@ class PodcastViewSet(
 #
 #         return queryset
 
-
 class VideoViewset(
     RetrieveModelMixin,
     ListModelMixin,
@@ -164,4 +183,6 @@ class VideoViewset(
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
             queryset = queryset.filter(tribe=tribe)
+
+        queryset = queryset.filter(publishedstatus=True)
         return queryset
