@@ -137,7 +137,7 @@ class PodcastViewSet(
     GenericViewSet
 ):
     serializer_class = PodcastSerializer
-    queryset = Podcast.objects.all()
+    queryset = Podcast.objects.filter(publishedstatus=True)
 
     def get_queryset(self):
         queryset = Podcast.objects.all()
@@ -176,7 +176,7 @@ class VideoViewset(
     GenericViewSet
 ):
     serializer_class = VideoSerializer
-    queryset = Video.objects.all()
+    queryset = Video.objects.filter(publishedstatus=True)
 
     def retrieve(self, request, *args, **kwargs):
         return retrieve_update_counter(request, Video, VideoSerializer, *args, **kwargs)
