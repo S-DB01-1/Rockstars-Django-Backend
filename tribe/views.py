@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from rest_framework import status
+from rest_framework import status, filters
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -61,6 +61,8 @@ class ArticleViewSet(
 ):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['datecreated']
 
     def get_queryset(self):
         queryset = Article.objects.all()
