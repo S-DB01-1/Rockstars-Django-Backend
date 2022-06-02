@@ -37,6 +37,7 @@ class ArticleSerializer(HyperlinkedModelSerializer):
     id = serializers.IntegerField(source='articleid', read_only=True)
     tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
     author = serializers.CharField(source='rockstar.name', read_only=True)
+    rockstarid = serializers.IntegerField(source='rockstar.rockstarid', read_only=True)
 
     class Meta:
         model = Article
@@ -75,6 +76,7 @@ class VideoSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Video
         fields = '__all__'
+
 
 class ArticleTextSerializer(HyperlinkedModelSerializer):
     id = serializers.IntegerField(source='articletextblockid', read_only=True)
