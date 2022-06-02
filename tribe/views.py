@@ -78,7 +78,7 @@ class ArticleViewSet(
     GenericViewSet
 ):
     serializer_class = ArticleSerializer
-    queryset = Article.objects.all()
+    queryset = Article.objects.filter(publishedstatus=True)
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['datecreated']
 
