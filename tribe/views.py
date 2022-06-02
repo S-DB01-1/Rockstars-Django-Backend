@@ -11,7 +11,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from .models import ArticleText, Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video
-from .serializers import ArticleTextSerializer, TribeSerializer, RockstarSerializer, ArticleSerializer, OnDemandRequestSerializer, \
+from .serializers import ArticleTextSerializer, TribeSerializer, RockstarSerializer, ArticleSerializer, \
+    OnDemandRequestSerializer, \
     PodcastSerializer, VideoSerializer
 
 
@@ -70,6 +71,7 @@ class ArticleTextViewSet(
 
         return queryset
 
+
 class ArticleViewSet(
     ListModelMixin,
     UpdateModelMixin,
@@ -85,7 +87,6 @@ class ArticleViewSet(
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
             queryset = queryset.filter(tribe=tribe)
-
 
         queryset = queryset.filter(publishedstatus=True)
         return queryset

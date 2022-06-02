@@ -24,6 +24,7 @@ class Tribe(models.Model):
     description = models.TextField(db_column='Description', blank=True, null=True)
     spotify = models.TextField(db_column='Spotify', blank=True, null=True)
     leadaddress = models.TextField(db_column='LeadAddress', blank=True, null=True)
+
     # blocknumber = models.IntegerField(db_column='BlockNumber')
     # imagenumber = models.IntegerField(db_column='ImageNumber')
 
@@ -46,6 +47,7 @@ class Rockstar(models.Model):
         managed = False
         db_table = 'Rockstars'
 
+
 class ArticleText(models.Model):
     articletextblockid = models.TextField(db_column='ArticleTextBlockId', primary_key=True)
     article = models.ForeignKey('Article', models.CASCADE, db_column='ArticleId', blank=True, null=True)
@@ -54,6 +56,7 @@ class ArticleText(models.Model):
     class Meta:
         managed = False
         db_table = 'ArticleTextBlocks'
+
 
 class Article(models.Model):
     articleid = models.AutoField(db_column='ArticleId', primary_key=True)
