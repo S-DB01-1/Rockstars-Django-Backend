@@ -79,10 +79,9 @@ class ArticleViewSet(
     GenericViewSet
 ):
     search_fields = ['title', 'description']
-    filter_backends = (filters.SearchFilter,)
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
     serializer_class = ArticleSerializer
     queryset = Article.objects.filter(publishedstatus=True)
-    filter_backends = [filters.OrderingFilter]
     ordering_fields = ['datecreated']
 
     def get_queryset(self):
