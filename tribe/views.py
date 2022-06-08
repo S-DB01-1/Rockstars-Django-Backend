@@ -2,6 +2,7 @@ import os
 
 from azure.appconfiguration import AzureAppConfigurationClient
 from django.core.mail import send_mail
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -59,6 +60,8 @@ class ArticleViewSet(
     UpdateModelMixin,
     GenericViewSet
 ):
+    search_fields = ['title', 'description']
+    filter_backends = (filters.SearchFilter,)
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
 
@@ -67,7 +70,6 @@ class ArticleViewSet(
         tribe = self.request.query_params.get('tribe')
         if tribe is not None:
             queryset = queryset.filter(tribe=tribe)
-
 
         queryset = queryset.filter(publishedstatus=True)
         return queryset
@@ -156,6 +158,9 @@ class VideoViewset(
     ListModelMixin,
     GenericViewSet
 ):
+    search_fields = ['title', 'description']
+    filter_backends = (filters.SearchFilter,)
+
     serializer_class = VideoSerializer
     queryset = Video.objects.all()
 
