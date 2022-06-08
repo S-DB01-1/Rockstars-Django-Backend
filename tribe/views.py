@@ -2,7 +2,7 @@ import os
 
 from azure.appconfiguration import AzureAppConfigurationClient
 from django.core.mail import send_mail
-from django.http import JsonResponse
+
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
