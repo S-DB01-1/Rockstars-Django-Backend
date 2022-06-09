@@ -74,19 +74,7 @@ class VideoSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Video
-        fields = (
-            "videoid",
-            "title",
-            "description",
-            "get_link",
-            "date_created",
-            "datemodified",
-            "datepublished",
-            "publishedstatus",
-            "viewcount",
-            "tribe",
-            "rockstar",
-        )
+        fields = ('__all__', 'get_link')
 
 
 class ArticleTextSerializer(HyperlinkedModelSerializer):
