@@ -54,12 +54,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:3000',
-#     'https://hij2ifw7oy23da2z.azurewebsites.net'
-# ]
-# I'm sorry about this
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'https://hij2ifw7oy23da2z.azurewebsites.net'
+]
+CORS_ALLOW_CREDENTIALS = None
 
 ROOT_URLCONF = 'djangoBackend.urls'
 
