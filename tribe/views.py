@@ -11,10 +11,9 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from .models import ArticleText, Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video
+from .models import ArticleText, Tribe, Rockstar, Article, OnDemandRequest, Podcast, PodcastEpisodes, Video
 from .serializers import ArticleTextSerializer, TribeSerializer, RockstarSerializer, ArticleSerializer, \
-    OnDemandRequestSerializer, \
-    PodcastSerializer, VideoSerializer
+    OnDemandRequestSerializer, PodcastSerializer, PodcastEpisodeSerializer, VideoSerializer
 
 
 # This function works for the retrieve functions that currently use it, but because the other teams database table pk
@@ -153,24 +152,6 @@ class PodcastViewSet(
 
         queryset = queryset.filter(publishedstatus=True)
         return queryset
-
-
-# Currently disabled till the other group fixes their tables.
-# class PodcastEpisodeViewSet(
-#     RetrieveModelMixin,
-#     ListModelMixin,
-#     GenericViewSet
-# ):
-#     serializer_class = PodcastEpisodeSerializer
-#     queryset = PodcastEpisodes.objects.all()
-#
-#     def get_queryset(self):
-#         queryset = PodcastEpisodes.objects.all()
-#         podcast = self.request.query_params.get('podcast')
-#         if podcast is not None:
-#             queryset = queryset.filter(Podcastid=podcast)
-#
-#         return queryset
 
 class VideoViewset(
     RetrieveModelMixin,

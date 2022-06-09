@@ -85,6 +85,24 @@ class ArticleImage(models.Model):
         db_table = 'ArticleImages'
 
 
+class PodcastEpisodes(models.Model):
+    podcastepisodeid = models.AutoField(db_column='PodcastEpisodeId', primary_key=True)
+    title = models.TextField(db_column='Title', blank=True, null=True)
+    description = models.TextField(db_column='Description', blank=True, null=True)
+    url = models.TextField(db_column='URL', blank=True, null=True)
+    datecreated = models.DateTimeField(db_column='DateCreated')
+    datemodified = models.DateTimeField(db_column='DateModified')
+    datepublished = models.DateTimeField(db_column='DatePublished')
+    publishedstatus = models.BooleanField(db_column='PublishedStatus')
+    viewcount = models.IntegerField(db_column='ViewCount')
+    rockstar = models.ForeignKey('Rockstar', models.CASCADE, db_column='RockstarId', blank=True, null=True)
+    tribe = models.ForeignKey('Tribe', related_name='episodes', on_delete=models.CASCADE, db_column='TribeId', blank=True, null=True)
+    podcast = models.ForeignKey('Podcast', models.CASCADE, db_column='PodcastId', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'PodcastsEpisodes'
+
 class Podcast(models.Model):
     podcastid = models.AutoField(db_column='PodcastId', primary_key=True)
     title = models.TextField(db_column='Title', blank=True, null=True)
@@ -108,6 +126,7 @@ class Video(models.Model):
     title = models.TextField(db_column='Title')
     description = models.TextField(db_column='Description', blank=True, null=True)
     link = models.TextField(db_column='Link', blank=True, null=True)
+    linktype = models.IntegerField(db_column='LinkType', blank=True, null=True)
     datecreated = models.DateTimeField(db_column='DateCreated')
     datemodified = models.DateTimeField(db_column='DateModified')
     datepublished = models.DateTimeField(db_column='DatePublished')
@@ -119,3 +138,9 @@ class Video(models.Model):
     class Meta:
         managed = False
         db_table = 'Videos'
+
+    def get_link(self):
+        if self.linktype == 0:
+            return 'https://youtube.com/' + self.link
+        if self.linktype == 1:
+            return 'https://vimeo.com/' + self.link

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import HyperlinkedModelSerializer
 
-from .models import ArticleText, Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video, Tag, ArticleImage
+from .models import ArticleText, Tribe, Rockstar, Article, OnDemandRequest, Podcast, Video, Tag, ArticleImage, PodcastEpisodes
 
 
 class OnDemandRequestSerializer(HyperlinkedModelSerializer):
@@ -49,24 +49,23 @@ class ArticleImageSerializer(HyperlinkedModelSerializer):
         model = ArticleImage
         fields = '__all__'
 
+class PodcastEpisodeSerializer(HyperlinkedModelSerializer):
+    Podcast_id = serializers.IntegerField(source='Podcast.id', read_only=True)
+
+    class Meta:
+        model = PodcastEpisodes
+        fields = '__all__'
 
 class PodcastSerializer(HyperlinkedModelSerializer):
+    episodes = PodcastEpisodeSerializer(many=True)
     id = serializers.IntegerField(source='podcastid', read_only=True)
     tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
     rockstarid = serializers.IntegerField(source='rockstar.rockstarid', read_only=True)
 
     class Meta:
         model = Podcast
-        fields = '__all__'
+        fields = ('__all__', 'episodes')
 
-
-# class PodcastEpisodeSerializer(HyperlinkedModelSerializer):
-#     
-#     Podcast_id = serializers.IntegerField(source='Podcast.id', read_only=True)
-#
-#     class Meta:
-#         model = PodcastEpisodes
-#         fields = '__all__'
 
 
 class VideoSerializer(HyperlinkedModelSerializer):
@@ -75,7 +74,19 @@ class VideoSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Video
-        fields = '__all__'
+        fields = (
+            "videoid",
+            "title",
+            "description",
+            "get_link",
+            "date_created",
+            "datemodified",
+            "datepublished",
+            "publishedstatus",
+            "viewcount",
+            "tribe",
+            "rockstar",
+        )
 
 
 class ArticleTextSerializer(HyperlinkedModelSerializer):
