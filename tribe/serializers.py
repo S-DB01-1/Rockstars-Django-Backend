@@ -71,10 +71,11 @@ class PodcastSerializer(HyperlinkedModelSerializer):
 class VideoSerializer(HyperlinkedModelSerializer):
     id = serializers.IntegerField(source='videoid', read_only=True)
     tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
+    getlink = serializers.CharField(source='get_link', read_only=True)
 
     class Meta:
         model = Video
-        fields = ('__all__', 'get_link')
+        fields = '__all__'
 
 
 class ArticleTextSerializer(HyperlinkedModelSerializer):
