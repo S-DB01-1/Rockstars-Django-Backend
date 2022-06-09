@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
+from pickle import TRUE
 import sys
 from pathlib import Path
 
@@ -58,7 +59,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://hij2ifw7oy23da2z.azurewebsites.net'
 ]
-CORS_ALLOW_CREDENTIALS = None
+CORS_ALLOW_CREDENTIALS = False
 
 ROOT_URLCONF = 'djangoBackend.urls'
 
@@ -92,7 +93,7 @@ DATABASES = {
         "HOST": "project-rockstars.database.windows.net",
         'PORT': '1433',
         'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
+            'driver': 'ODBC Driver 18 for SQL Server',
         },
         "USER": "azureuser",
         "PASSWORD": "vojbef-hisnEw-6vimha",
