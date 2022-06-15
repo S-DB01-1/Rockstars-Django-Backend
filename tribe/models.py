@@ -96,12 +96,12 @@ class PodcastEpisodes(models.Model):
     publishedstatus = models.BooleanField(db_column='PublishedStatus')
     viewcount = models.IntegerField(db_column='ViewCount')
     rockstar = models.ForeignKey('Rockstar', models.CASCADE, db_column='RockstarId', blank=True, null=True)
-    tribe = models.ForeignKey('Tribe', related_name='episodes', on_delete=models.CASCADE, db_column='TribeId', blank=True, null=True)
-    podcast = models.ForeignKey('Podcast', models.CASCADE, db_column='PodcastId', blank=True, null=True)
+    tribe = models.ForeignKey('Tribe', models.CASCADE, db_column='TribeId', blank=True, null=True)
+    podcast = models.ForeignKey('Podcast', related_name='episodes', on_delete=models.CASCADE, db_column='PodcastId', blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'PodcastsEpisodes'
+        db_table = 'PodcastEpisodes'
 
 class Podcast(models.Model):
     podcastid = models.AutoField(db_column='PodcastId', primary_key=True)
@@ -113,7 +113,6 @@ class Podcast(models.Model):
     datepublished = models.DateTimeField(db_column='DatePublished')
     publishedstatus = models.BooleanField(db_column='PublishedStatus')
     viewcount = models.IntegerField(db_column='ViewCount')
-    rockstar = models.ForeignKey('Rockstar', models.CASCADE, db_column='RockstarId', blank=True, null=True)
     tribe = models.ForeignKey('Tribe', models.CASCADE, db_column='TribeId', blank=True, null=True)
 
     class Meta:
