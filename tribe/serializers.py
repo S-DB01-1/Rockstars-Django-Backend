@@ -50,21 +50,21 @@ class ArticleImageSerializer(HyperlinkedModelSerializer):
         fields = '__all__'
 
 class PodcastEpisodeSerializer(HyperlinkedModelSerializer):
-    Podcast_id = serializers.IntegerField(source='Podcast.id', read_only=True)
+    podcastid = serializers.IntegerField(source='podcast.id', read_only=True)
 
     class Meta:
         model = PodcastEpisodes
         fields = '__all__'
 
 class PodcastSerializer(HyperlinkedModelSerializer):
-    episodes = PodcastEpisodeSerializer(many=True)
     id = serializers.IntegerField(source='podcastid', read_only=True)
     tribeid = serializers.IntegerField(source='tribe.tribeid', read_only=True)
-    rockstarid = serializers.IntegerField(source='rockstar.rockstarid', read_only=True)
+    episodes = PodcastEpisodeSerializer(many=True, read_only=True)
 
     class Meta:
         model = Podcast
-        fields = ('__all__', 'episodes')
+        fields = [field.name for field in model._meta.fields]
+        fields.extend(['id', 'tribeid', 'episodes'])
 
 
 
